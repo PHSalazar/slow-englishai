@@ -35,7 +35,7 @@ const routes = createBrowserRouter([
   }
 ],
   {
-    basename: 'slow-english'
+    basename: '/slow-englishai'
   })
 
 const App = () => {
