@@ -7,7 +7,7 @@ const Lessons = () => {
     const allLessons = useLessonStore((state) => state.allLessons);
     const activeLesson = useLessonStore((state) => state.activeLesson);
 
-    const currentLesson = allLessons.find(lesson => lesson.id === activeLesson?.data?.id);
+    const currentLesson = allLessons.find(lesson => lesson.id === activeLesson?.id);
     const titleCurrentLesson = currentLesson?.title;
 
 

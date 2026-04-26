@@ -3,18 +3,22 @@ import { create } from "zustand";
 interface Lesson {
     id: number,
     title: string,
-    description: string
+    description: string,
+    completed: boolean | false,
+    percentage: number | 0,
+    started?: boolean | false
 }
 
 interface ActiveLesson {
     data: Lesson | null;
     completed: boolean,
     percentage: number | null;
+    started: boolean | true
 }
 
 interface LessonState {
     allLessons: Lesson[],
-    activeLesson: ActiveLesson | null; // id da últ. lição estudada
+    activeLesson: Lesson | null; // id da últ. lição estudada
     setLessons: (newLessons: Lesson[]) => void;
     setActiveLesson: (id: Lesson) => void;
 }
@@ -24,37 +28,51 @@ const useLessonStore = create<LessonState>((set) => ({
         {
             "id": 1,
             "title": "Lesson 1: Greetings and Introductions",
-            "description": "Aprenda a cumprimentar pessoas, se apresentar e usar expressões básicas de cortesia no dia a dia."
+            "description": "Aprenda a cumprimentar pessoas, se apresentar e usar expressões básicas de cortesia no dia a dia.",
+            completed: false,
+            percentage: 0,
         },
         {
             "id": 2,
             "title": "Lesson 2: Essential Verbs and Pronouns",
-            "description": "Foco no verbo 'to be' e pronomes pessoais para construir frases afirmativas e negativas simples."
+            "description": "Foco no verbo 'to be' e pronomes pessoais para construir frases afirmativas e negativas simples.",
+            completed: false,
+            percentage: 0
         },
         {
             "id": 3,
             "title": "Lesson 3: Common Vocabulary and Objects",
-            "description": "Expansão de vocabulário com nomes de objetos comuns, cores e números para descrever o ambiente."
+            "description": "Expansão de vocabulário com nomes de objetos comuns, cores e números para descrever o ambiente.",
+            completed: false,
+            percentage: 0
         },
         {
             "id": 4,
             "title": "Lesson 4: Present Simple Tense",
-            "description": "Como falar sobre rotinas, hábitos e fatos usando verbos de ação no presente."
+            "description": "Como falar sobre rotinas, hábitos e fatos usando verbos de ação no presente.",
+            completed: false,
+            percentage: 0
         },
         {
             "id": 5,
             "title": "Lesson 5: Asking Questions",
-            "description": "Uso de 'Do/Does' e pronomes interrogativos (Who, What, Where, When, Why) para formular perguntas."
+            "description": "Uso de 'Do/Does' e pronomes interrogativos (Who, What, Where, When, Why) para formular perguntas.",
+            completed: false,
+            percentage: 0
         },
         {
             "id": 6,
             "title": "Lesson 6: Telling Time and Schedules",
-            "description": "Aprenda a ler as horas, falar sobre dias da semana e organizar compromissos em inglês."
+            "description": "Aprenda a ler as horas, falar sobre dias da semana e organizar compromissos em inglês.",
+            completed: false,
+            percentage: 0
         },
         {
             "id": 7,
             "title": "Lesson 7: Daily Conversations",
-            "description": "Prática de diálogos situacionais, como pedir comida em um restaurante ou pedir informações."
+            "description": "Prática de diálogos situacionais, como pedir comida em um restaurante ou pedir informações.",
+            completed: false,
+            percentage: 0
         }
     ],
     activeLesson: null,
@@ -63,7 +81,7 @@ const useLessonStore = create<LessonState>((set) => ({
     setLessons: (newLesson) => set({ allLessons: newLesson }),
 
     // Setar ult. licao aberta
-    setActiveLesson: (lesson) => set({ activeLesson: { data: lesson, completed: false, percentage: 0 } })
+    setActiveLesson: (lesson) => set({ activeLesson: lesson })
 
 
 }))
