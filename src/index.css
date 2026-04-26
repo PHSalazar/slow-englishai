@@ -1,0 +1,22 @@
+@import url('https://fonts.googleapis.com/css2?family=Lexend:wght@100..900&family=Roboto+Condensed:ital,wght@0,100..900;1,100..900&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap');
+
+@import "tailwindcss";
+
+* {
+    font-family: 'Lexend', sans-serif;
+    font-optical-sizing: auto;
+    font-style: normal;
+}
+
+:root {
+    background-color: #F8F9FF;
+    color: #444653;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5 {
+    color: #0B1C30;
+}
