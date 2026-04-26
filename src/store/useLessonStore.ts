@@ -6,11 +6,17 @@ interface Lesson {
     description: string
 }
 
+interface ActiveLesson {
+    data: Lesson | null;
+    completed: boolean,
+    percentage: number | null;
+}
+
 interface LessonState {
     allLessons: Lesson[],
-    activeLesson: number | null; // id da últ. lição estudada
+    activeLesson: ActiveLesson | null; // id da últ. lição estudada
     setLessons: (newLessons: Lesson[]) => void;
-    setActiveLesson: (id: number) => void;
+    setActiveLesson: (id: Lesson) => void;
 }
 
 const useLessonStore = create<LessonState>((set) => ({
@@ -57,7 +63,7 @@ const useLessonStore = create<LessonState>((set) => ({
     setLessons: (newLesson) => set({ allLessons: newLesson }),
 
     // Setar ult. licao aberta
-    setActiveLesson: (id) => set({ activeLesson: id })
+    setActiveLesson: (lesson) => set({ activeLesson: { data: lesson, completed: false, percentage: 0 } })
 
 
 }))
