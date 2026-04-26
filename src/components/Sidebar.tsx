@@ -5,7 +5,7 @@ import { NavLink } from "react-router-dom"
 
 const Sidebar = () => {
     const baseStyle = `p-3 rounded-md`;
-    const activeClass = ({ isActive }) => `${baseStyle} ${isActive ? `bg-[#DBEAFE] text-[#1E40AF]` : ``}`;
+    const activeClass = ({ isActive }: { isActive: boolean }) => `${baseStyle} ${isActive ? `bg-[#DBEAFE] text-[#1E40AF]` : ``}`;
 
 
     return (

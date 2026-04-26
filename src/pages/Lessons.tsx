@@ -16,7 +16,7 @@ const Lessons = () => {
 
             {titleCurrentLesson && (
                 <div className="flex flex-col">
-                    <Link to={`/lesson/${currentLesson.id}`} className="bg-[#DBEAFE] text-[#1E40AF] rounded-md px-4 py-2 w-fit hover:bg-[#1E40AF] hover:text-[#DBEAFE] transition-colors">Continuar '{titleCurrentLesson}'...</Link>
+                    <Link to={`/lesson/${currentLesson?.id}`} className="bg-[#DBEAFE] text-[#1E40AF] rounded-md px-4 py-2 w-fit hover:bg-[#1E40AF] hover:text-[#DBEAFE] transition-colors">Continuar '{titleCurrentLesson}'...</Link>
                 </div>
             )}
 

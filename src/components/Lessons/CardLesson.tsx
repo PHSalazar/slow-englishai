@@ -1,7 +1,12 @@
-import { FaArrowRightLong } from "react-icons/fa6"
-import { Link } from "react-router-dom"
+import { FaArrowRightLong } from "react-icons/fa6";
+import { Link } from "react-router-dom";
 
-const CardLesson = ({ id, title, description }) => {
+interface CardLessonProps {
+    id: number;
+    title: string;
+    description: string
+}
+const CardLesson = ({ id, title, description }: CardLessonProps) => {
     return (
         <div className="w-[200px] flex flex-col gap-0">
             <span className="bg-[#DBEAFE] text-[#1E40AF] px-2 text-xs rounded-tr-2xl w-fit border-l border-l-[#1E40AF]">{title}</span>
