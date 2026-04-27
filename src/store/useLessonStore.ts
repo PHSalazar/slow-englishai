@@ -4,23 +4,16 @@ interface Lesson {
     id: number,
     title: string,
     description: string,
-    completed: boolean | false,
-    percentage: number | 0,
-    started?: boolean | false
-}
-
-interface ActiveLesson {
-    data: Lesson | null;
     completed: boolean,
-    percentage: number | null;
-    started: boolean | true
+    percentage: number,
+    started?: boolean
 }
 
 interface LessonState {
     allLessons: Lesson[],
     activeLesson: Lesson | null; // id da últ. lição estudada
     setLessons: (newLessons: Lesson[]) => void;
-    setActiveLesson: (id: Lesson) => void;
+    setActiveLesson: (id: Lesson | null) => void;
 }
 
 const useLessonStore = create<LessonState>((set) => ({
@@ -81,7 +74,20 @@ const useLessonStore = create<LessonState>((set) => ({
     setLessons: (newLesson) => set({ allLessons: newLesson }),
 
     // Setar ult. licao aberta
-    setActiveLesson: (lesson) => set({ activeLesson: lesson })
+    setActiveLesson: (lesson) => {
+        if (!lesson) {
+            set({ activeLesson: null });
+            return;
+        }
+
+        set((state) => ({
+            activeLesson: lesson,
+            // Atualiza a lista global para refletir que esta lição começou
+            allLessons: state.allLessons.map((l) =>
+                l.id === lesson.id ? { ...l, started: true } : l
+            ),
+        }));
+    },
 
 
 }))

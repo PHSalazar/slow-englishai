@@ -13,12 +13,11 @@ const FullScreenLesson = () => {
     const titleCurrentLesson = currentLesson ? currentLesson.title : null;
 
     useEffect(() => {
-
-        const activeLesson = currentLesson;
-        activeLesson.started = true;
-
-        setActiveLesson(activeLesson);
-    }, [])
+        if (currentLesson && !currentLesson.started) {
+            // Apenas chamamos a função, o store cuida do resto
+            setActiveLesson(currentLesson);
+        }
+    }, [currentLesson, setActiveLesson]);
 
     return (
         <div>
