@@ -9,26 +9,26 @@ const Sidebar = () => {
 
 
     return (
-        <aside className={`flex flex-col gap-5 bg-white border-r border-[#F1F5F9] w-[200px] h-screen p-3`}>
+        <aside className={`flex flex-row sm:flex-col gap-5 bg-white border-r border-[#F1F5F9] w-full sm:w-[200px] h-auto sm:h-screen p-3`}>
 
-            <div className="mt-5 pb-2 border-b border-[#F1F5F9]">
+            <div className="hidden sm:block mt-5 pb-2 border-b border-[#F1F5F9]">
                 <h2>Username</h2>
                 <p className="text-xs">Lorem, ipsum dolor.</p>
             </div>
-            <ul className="flex flex-col flex-1 gap-2">
+            <ul className="flex flex-row sm:flex-col flex-1 justify-around sm:justify-start gap-2">
                 <NavLink to="/" className={activeClass}>
-                    <li className="flex flex-nowrap items-center gap-2 text-sm hover:text-[#1E40AF]"><MdOutlineDashboard />Home</li>
+                    <li className="flex flex-col sm:flex-row flex-nowrap items-center gap-2 text-xs sm:text-sm hover:text-[#1E40AF]"><MdOutlineDashboard />Home</li>
                 </NavLink>
                 <NavLink to="lessons" className={activeClass}>
-                    <li className="flex flex-nowrap items-center gap-2 text-sm hover:text-[#1E40AF]"><RiGraduationCapLine />Lessons</li>
+                    <li className="flex flex-col sm:flex-row flex-nowrap items-center gap-2 text-xs sm:text-sm hover:text-[#1E40AF]"><RiGraduationCapLine />Lessons</li>
                 </NavLink>
                 <NavLink to="profile" className={activeClass}>
-                    <li className="flex flex-nowrap items-center gap-2 text-sm hover:text-[#1E40AF]"><FaRegUserCircle />Meu Perfil</li>
+                    <li className="flex flex-col sm:flex-row flex-nowrap items-center gap-2 text-xs sm:text-sm hover:text-[#1E40AF]"><FaRegUserCircle />Meu Perfil</li>
                 </NavLink>
             </ul>
 
 
-            <NavLink to="/start">Start Lesson</NavLink>
+            <NavLink to="/start" className="hidden sm:block">Start Lesson</NavLink>
         </aside>
     )
 }

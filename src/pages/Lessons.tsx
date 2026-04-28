@@ -31,6 +31,7 @@ const Lessons = () => {
                     }
                 </div>
             </div>
+            <div className="h-20 w-full">&nbsp;</div>
         </div>
     )
 }
