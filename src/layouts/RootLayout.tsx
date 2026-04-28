@@ -11,8 +11,10 @@ const RootLayout = () => {
                 <Navbar />
                 <div className="p-8 flex-1 overflow-y-auto">
                     <Outlet />
+                    <div className="h-20 w-full">&nbsp;</div>
                 </div>
             </div>
+
         </div>
     )
 }
