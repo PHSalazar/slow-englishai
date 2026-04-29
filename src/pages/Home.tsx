@@ -1,4 +1,6 @@
+import { MdOutlineRocketLaunch } from "react-icons/md";
 import { VscDebugStart } from "react-icons/vsc";
+import { NavLink } from "react-router-dom";
 import imageStuding from "../assets/studing.png";
 import Card from "../components/Home/Card";
 import useUserInfoStore from "../store/useUserInfoStore";
@@ -19,12 +21,28 @@ const Home = () => {
                 <Card className="col-span-4 flex flex-col items-start min-h-[200px] sm:row-span-7 bg-blue-900/10 relative overflow-hidden p-5">
                     <img src={imageStuding} className="absolute bottom-5 sm:top-5 -z-50 opacity-10" />
 
-                    <h1 className="text-2xl font-extrabold">{activeLesson?.title}</h1>
-                    <h1 className="text-md flex-1 text-gray-500!">{activeLesson?.description}</h1>
-                    <button className="mt-8 self-center bg-white text-[#1E40AF] rounded-md w-11/12 sm:w-7/12 py-2
-                    cursor-pointer flex flex-nowrap items-center justify-center font-medium hover:bg-[#1E40AF] hover:text-white transition-all">
-                        Continuar Lição <VscDebugStart />
-                    </button>
+                    {
+                        activeLesson ? (
+                            <>
+                                <h1 className="text-2xl font-extrabold">{activeLesson?.title}</h1>
+                                <h2 className="text-md flex-1 text-gray-500!">{activeLesson?.description}</h2>
+                                <NavLink to={`lesson/${activeLesson.id}`} className="mt-8 self-center bg-white text-[#1E40AF] rounded-md w-11/12 sm:w-7/12 py-2
+                    cursor-pointer flex flex-nowrap items-center justify-center font-medium hover:bg-[#1E40AF] hover:text-white transition-all gap-2">
+                                    Continuar Lição <VscDebugStart />
+                                </NavLink>
+                            </>
+                        ) : (
+                            <>
+                                <h1 className="text-2xl font-extrabold">Que tal iniciarmos os seus estudos?</h1>
+                                <h2 className="text-md flex-1 text-gray-500!">Inicie seus estudos agora mesmo e vamos avançar jutnos!</h2>
+
+                                <NavLink to="lessons" className="mt-8 self-center bg-white text-[#1E40AF] rounded-md w-11/12 sm:w-7/12 py-2
+                    cursor-pointer flex flex-nowrap items-center justify-center font-medium hover:bg-[#1E40AF] hover:text-white transition-all gap-2">
+                                    Iniciar Lição <MdOutlineRocketLaunch />
+                                </NavLink>
+                            </>
+                        )
+                    }
                 </Card>
                 <Card className="col-span-2 min-h-[200px] sm:row-span-7 bg-white">
                     Lorem, ipsum dolor.

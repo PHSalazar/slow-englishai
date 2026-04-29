@@ -1,20 +1,19 @@
 import { useEffect } from 'react';
 import { IoIosArrowRoundBack } from 'react-icons/io';
 import { useNavigate, useParams } from 'react-router-dom';
-import useLessonStore from '../store/useLessonStore';
+import useUserInfoStore from '../store/useUserInfoStore';
 
 const FullScreenLesson = () => {
     const { id } = useParams();
     const navigate = useNavigate();
-    const allLessons = useLessonStore((state) => state.allLessons);
-    const setActiveLesson = useLessonStore((state) => state.setActiveLesson);
+    const allLessons = useUserInfoStore((state) => state.allLessons);
+    const setActiveLesson = useUserInfoStore((state) => state.setActiveLesson);
 
     const currentLesson = allLessons.find(lesson => lesson.id === Number(id));
     const titleCurrentLesson = currentLesson ? currentLesson.title : null;
 
     useEffect(() => {
         if (currentLesson && !currentLesson.started) {
-            // Apenas chamamos a função, o store cuida do resto
             setActiveLesson(currentLesson);
         }
     }, [currentLesson, setActiveLesson]);
