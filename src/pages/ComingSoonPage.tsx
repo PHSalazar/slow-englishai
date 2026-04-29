@@ -1,4 +1,4 @@
-import comingSoonSvg from "../assets/undraw_coming-soon.svg"
+import comingSoonSvg from "../assets/undraw_coming-soon.png"
 const ComingSoonPage = () => {
     return (
         <div className="flex items-center flex-col gap-5">
