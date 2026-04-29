@@ -1,11 +1,20 @@
-import { FaRegUserCircle } from "react-icons/fa"
-import { MdOutlineDashboard } from "react-icons/md"
-import { RiGraduationCapLine } from "react-icons/ri"
-import { NavLink } from "react-router-dom"
+import { FaRegUserCircle } from "react-icons/fa";
+import { MdOutlineDashboard } from "react-icons/md";
+import { RiGraduationCapLine } from "react-icons/ri";
+import { NavLink } from "react-router-dom";
+
+
+const menuIcons = [
+    { to: '/', label: "Home", icon: MdOutlineDashboard },
+    { to: 'lessons', label: "Lessons", icon: RiGraduationCapLine },
+    { to: 'profile', label: "My Profile", icon: FaRegUserCircle },
+];
 
 const Sidebar = () => {
     const baseStyle = `p-3 rounded-md`;
     const activeClass = ({ isActive }: { isActive: boolean }) => `${baseStyle} ${isActive ? `bg-[#DBEAFE] text-[#1E40AF]` : ``}`;
+
+    const classIcon = "text-xl sm:text-base";
 
 
     return (
@@ -16,15 +25,13 @@ const Sidebar = () => {
                 <p className="text-xs">Lorem, ipsum dolor.</p>
             </div>
             <ul className="flex flex-row sm:flex-col flex-1 justify-around sm:justify-start gap-2">
-                <NavLink to="/" className={activeClass}>
-                    <li className="flex flex-col sm:flex-row flex-nowrap items-center gap-2 text-xs sm:text-sm hover:text-[#1E40AF]"><MdOutlineDashboard />Home</li>
-                </NavLink>
-                <NavLink to="lessons" className={activeClass}>
-                    <li className="flex flex-col sm:flex-row flex-nowrap items-center gap-2 text-xs sm:text-sm hover:text-[#1E40AF]"><RiGraduationCapLine />Lessons</li>
-                </NavLink>
-                <NavLink to="profile" className={activeClass}>
-                    <li className="flex flex-col sm:flex-row flex-nowrap items-center gap-2 text-xs sm:text-sm hover:text-[#1E40AF]"><FaRegUserCircle />Meu Perfil</li>
-                </NavLink>
+                {
+                    menuIcons.map((menuItem) => (
+                        <NavLink to={menuItem.to} className={activeClass}>
+                            <li className="flex flex-col sm:flex-row flex-nowrap items-center gap-2 text-xs sm:text-sm hover:text-[#1E40AF]"><menuItem.icon className={classIcon} /> {menuItem.label}</li>
+                        </NavLink>
+                    ))
+                }
             </ul>
 
 
