@@ -5,6 +5,7 @@ import FullScreenLesson from './pages/FullScreenLesson'
 import Home from './pages/Home'
 import Lessons from './pages/Lessons'
 import Profile from './pages/Profile'
+import SetupWizard from './pages/SetupWizard'
 
 const routes = createBrowserRouter([
   {
@@ -26,6 +27,10 @@ const routes = createBrowserRouter([
       {
         path: 'profile',
         element: <Profile />
+      },
+      {
+        path: 'profile/setup-wizard',
+        element: <SetupWizard />
       },
       {
         path: '*',
