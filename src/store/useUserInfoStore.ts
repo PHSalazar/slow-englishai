@@ -14,7 +14,7 @@ interface Config {
 const useUserInfoStore = create<Config>()(
     persist(
         (set) => ({
-            username: 'Sem nome',
+            username: 'Usuário',
             apiKey: 'Sem API configurada',
             language: 'English',
 
