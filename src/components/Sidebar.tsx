@@ -2,6 +2,7 @@ import { FaRegUserCircle } from "react-icons/fa";
 import { MdOutlineDashboard } from "react-icons/md";
 import { RiGraduationCapLine } from "react-icons/ri";
 import { NavLink } from "react-router-dom";
+import useUserInfoStore from "../store/useUserInfoStore";
 
 
 const menuIcons = [
@@ -11,6 +12,7 @@ const menuIcons = [
 ];
 
 const Sidebar = () => {
+    const { username, language } = useUserInfoStore();
     const baseStyle = `p-3 rounded-md`;
     const activeClass = ({ isActive }: { isActive: boolean }) => `${baseStyle} ${isActive ? `bg-[#DBEAFE] text-[#1E40AF]` : ``}`;
 
@@ -21,8 +23,8 @@ const Sidebar = () => {
         <aside className={`flex flex-row sm:flex-col gap-5 bg-white border-r border-[#F1F5F9] w-full sm:w-[200px] h-auto sm:h-screen p-3`}>
 
             <div className="hidden sm:block mt-5 pb-2 border-b border-[#F1F5F9]">
-                <h2>Username</h2>
-                <p className="text-xs">Lorem, ipsum dolor.</p>
+                <h2>{username}</h2>
+                <p className="text-xs">Aprendendo <b>{language}</b>.</p>
             </div>
             <ul className="flex flex-row sm:flex-col flex-1 justify-around sm:justify-start gap-2">
                 {
