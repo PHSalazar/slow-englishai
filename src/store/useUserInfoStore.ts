@@ -16,7 +16,7 @@ const useUserInfoStore = create<Config>()(
         (set) => ({
             username: 'Usuário',
             apiKey: 'Sem API configurada',
-            language: 'English',
+            language: 'english',
 
             setUsername: (username) => set({ username }),
             setApiKey: (apiKey) => set({ apiKey }),

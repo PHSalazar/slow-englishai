@@ -36,7 +36,7 @@ const SetupWizard = () => {
                 <input type="password" className="border rounded-sm p-2" placeholder="**********" onChange={(e) => setApiKeyState(e.target.value)} required />
 
                 <label htmlFor="" className="text-sm">Idioma de Interesse</label>
-                <select name="" id="" className="border rounded-sm p-2" onChange={(e) => setLanguageState(e.target.value)} required>
+                <select name="" id="" className="border rounded-sm p-2" value={languageState} onChange={(e) => setLanguageState(e.target.value)} required>
                     <option value="english">Inglês</option>
                     <option value="spanish">Espanhol</option>
                 </select>
