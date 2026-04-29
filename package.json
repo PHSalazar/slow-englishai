@@ -5,6 +5,7 @@
   "type": "module",
   "scripts": {
     "dev": "vite --host",
+    "pre-deploy": "npm run build && git add .",
     "build": "tsc -b && vite build",
     "lint": "eslint .",
     "preview": "vite preview"
