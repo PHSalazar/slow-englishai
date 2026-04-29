@@ -1,12 +1,10 @@
 import { VscDebugStart } from "react-icons/vsc";
 import imageStuding from "../assets/studing.png";
 import Card from "../components/Home/Card";
-import useLessonStore from "../store/useLessonStore";
 import useUserInfoStore from "../store/useUserInfoStore";
 
 const Home = () => {
-    const { username } = useUserInfoStore();
-    const { activeLesson } = useLessonStore();
+    const { username, activeLesson } = useUserInfoStore();
 
     const formattedName = (fullname: string) => {
         return fullname?.split(" ")[0] || fullname

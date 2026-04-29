@@ -1,11 +1,11 @@
 import { RiGraduationCapLine } from "react-icons/ri"
 import { Link } from "react-router-dom"
 import CardLesson from "../components/Lessons/CardLesson"
-import useLessonStore from "../store/useLessonStore"
+import useUserInfoStore from "../store/useUserInfoStore"
 
 const Lessons = () => {
-    const allLessons = useLessonStore((state) => state.allLessons);
-    const activeLesson = useLessonStore((state) => state.activeLesson);
+    const allLessons = useUserInfoStore((state) => state.allLessons);
+    const activeLesson = useUserInfoStore((state) => state.activeLesson);
 
     const currentLesson = allLessons.find(lesson => lesson.id === activeLesson?.id);
     const titleCurrentLesson = currentLesson?.title;
