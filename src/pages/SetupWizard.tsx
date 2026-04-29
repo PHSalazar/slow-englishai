@@ -30,7 +30,7 @@ const SetupWizard = () => {
 
             <form action="/" onSubmit={handleSubmit} className="my-2 flex flex-col gap-2">
                 <label htmlFor="" className="text-sm">Seu nome</label>
-                <input type="text" className="border rounded-sm p-2" placeholder="Ex.: Maria Silva" onChange={(e) => setUsernameState(e.target.value)} value={usernameState === "Sem nome" ? "" : usernameState} required />
+                <input type="text" className="border rounded-sm p-2" placeholder="Ex.: Maria Silva" onChange={(e) => setUsernameState(e.target.value)} value={usernameState === "Usuário" ? "" : usernameState} required />
 
                 <label htmlFor="" className="text-sm">Chave de API</label>
                 <input type="password" className="border rounded-sm p-2" placeholder="**********" onChange={(e) => setApiKeyState(e.target.value)} required />
