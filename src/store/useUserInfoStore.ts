@@ -1,3 +1,4 @@
+import type { IconType } from "react-icons";
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
 
@@ -15,11 +16,25 @@ interface Lesson {
     started?: boolean;
 }
 
+interface Task {
+    icon?: IconType;
+    label: string,
+    date: Date;
+}
+
+interface QuizQuestion {
+    question: string,
+    options: string[],
+    answer: number,
+}
+
 interface AppState {
     // User Info
     username: string;
     apiKey: string;
     language: string;
+    history: Task[];
+    quiz: QuizQuestion[];
 
     // Lessons
     allLessons: Lesson[];
@@ -36,6 +51,12 @@ interface AppState {
     setLastAccessedLesson: (id: number) => void;
 
     updateActiveLessonData: (id: number, data: Partial<Lesson>) => void;
+
+    // Actions: Tasks
+    addTask: (task: Task) => void;
+
+    // Actions: Quiz
+    addQuiz: (quiz: QuizQuestion) => void;
 }
 
 const initialLessons: Lesson[] = [
@@ -99,6 +120,8 @@ const useAppStore = create<AppState>()(
             allLessons: initialLessons,
             lastAccessedLesson: null,
             started: false,
+            history: [],
+            quiz: [],
 
             setUsername: (username) => set({ username }),
             setApiKey: (apiKey) => set({ apiKey }),
@@ -133,7 +156,17 @@ const useAppStore = create<AppState>()(
                 });
             },
 
+            addTask: (task: Task) => {
+                set((state) => ({
+                    history: [...state.history, task]
+                }))
+            },
 
+            addQuiz: (quiz: QuizQuestion) => {
+                set((state) => ({
+                    quiz: [...state.quiz, quiz]
+                }))
+            }
 
         }),
         {
