@@ -6,7 +6,12 @@ import Card from "../components/Home/Card";
 import useUserInfoStore from "../store/useUserInfoStore";
 
 const Home = () => {
-    const { username, activeLesson } = useUserInfoStore();
+    const { username, lastAccessedLesson } = useUserInfoStore();
+
+    const allLessons = useUserInfoStore((state) => state.allLessons);
+    const currentLesson = allLessons.find(lesson => lesson.id === Number(lastAccessedLesson));
+    const titleCurrentLesson = currentLesson ? currentLesson.title : null;
+    const descriptionCurrentLesson = currentLesson ? currentLesson.description : null;
 
     const formattedName = (fullname: string) => {
         return fullname?.split(" ")[0] || fullname
@@ -22,11 +27,11 @@ const Home = () => {
                     <img src={imageStuding} className="absolute bottom-5 sm:top-5 -z-50 opacity-10" />
 
                     {
-                        activeLesson ? (
+                        lastAccessedLesson ? (
                             <>
-                                <h1 className="text-2xl font-extrabold">{activeLesson?.title}</h1>
-                                <h2 className="text-md flex-1 text-gray-500!">{activeLesson?.description}</h2>
-                                <NavLink to={`lesson/${activeLesson.id}`} className="mt-8 self-center bg-white text-[#1E40AF] rounded-md w-11/12 sm:w-7/12 py-2
+                                <h1 className="text-2xl font-extrabold">{titleCurrentLesson}</h1>
+                                <h2 className="text-md flex-1 text-gray-500!">{descriptionCurrentLesson}</h2>
+                                <NavLink to={`lesson/${lastAccessedLesson}`} className="mt-8 self-center bg-white text-[#1E40AF] rounded-md w-11/12 sm:w-7/12 py-2
                     cursor-pointer flex flex-nowrap items-center justify-center font-medium hover:bg-[#1E40AF] hover:text-white transition-all gap-2">
                                     Continuar Lição <VscDebugStart />
                                 </NavLink>

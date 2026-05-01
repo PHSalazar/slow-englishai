@@ -4,10 +4,9 @@ import CardLesson from "../components/Lessons/CardLesson"
 import useUserInfoStore from "../store/useUserInfoStore"
 
 const Lessons = () => {
-    const allLessons = useUserInfoStore((state) => state.allLessons);
-    const activeLesson = useUserInfoStore((state) => state.activeLesson);
+    const { lastAccessedLesson, allLessons } = useUserInfoStore();
 
-    const currentLesson = allLessons.find(lesson => lesson.id === activeLesson?.id);
+    const currentLesson = allLessons.find(lesson => lesson.id === lastAccessedLesson);
     const titleCurrentLesson = currentLesson?.title;
 
 

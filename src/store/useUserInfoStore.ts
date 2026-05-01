@@ -6,6 +6,10 @@ interface Lesson {
     id: number;
     title: string;
     description: string;
+    reading_html?: string;
+    transcript_html?: string;
+    transcript_pt_html?: string;
+    tts_script?: string;
     completed: boolean;
     percentage: number;
     started?: boolean;
@@ -19,7 +23,7 @@ interface AppState {
 
     // Lessons
     allLessons: Lesson[];
-    activeLesson: Lesson | null;
+    lastAccessedLesson?: number | null;
 
     // Actions: User
     setUsername: (username: string) => void;
@@ -29,17 +33,61 @@ interface AppState {
 
     // Actions: Lessons
     setLessons: (newLessons: Lesson[]) => void;
-    setActiveLesson: (lesson: Lesson | null) => void;
+    setLastAccessedLesson: (id: number) => void;
+
+    updateActiveLessonData: (id: number, data: Partial<Lesson>) => void;
 }
 
 const initialLessons: Lesson[] = [
-    { id: 1, title: "Lesson 1: Greetings and Introductions", description: "Aprenda a cumprimentar pessoas...", completed: false, percentage: 0 },
-    { id: 2, title: "Lesson 2: Essential Verbs and Pronouns", description: "Foco no verbo 'to be'...", completed: false, percentage: 0 },
-    { id: 3, title: "Lesson 3: Common Vocabulary and Objects", description: "Expansão de vocabulário...", completed: false, percentage: 0 },
-    { id: 4, title: "Lesson 4: Present Simple Tense", description: "Falar sobre rotinas...", completed: false, percentage: 0 },
-    { id: 5, title: "Lesson 5: Asking Questions", description: "Uso de 'Do/Does'...", completed: false, percentage: 0 },
-    { id: 6, title: "Lesson 6: Telling Time and Schedules", description: "Aprenda a ler as horas...", completed: false, percentage: 0 },
-    { id: 7, title: "Lesson 7: Daily Conversations", description: "Prática de diálogos...", completed: false, percentage: 0 }
+    {
+        "id": 1,
+        "title": "Lesson 1: Greetings and Introductions",
+        "description": "Aprenda a cumprimentar pessoas, se apresentar e usar expressões básicas de cortesia no dia a dia.",
+        completed: false,
+        percentage: 0,
+    },
+    {
+        "id": 2,
+        "title": "Lesson 2: Essential Verbs and Pronouns",
+        "description": "Foco no verbo 'to be' e pronomes pessoais para construir frases afirmativas e negativas simples.",
+        completed: false,
+        percentage: 0
+    },
+    {
+        "id": 3,
+        "title": "Lesson 3: Common Vocabulary and Objects",
+        "description": "Expansão de vocabulário com nomes de objetos comuns, cores e números para descrever o ambiente.",
+        completed: false,
+        percentage: 0
+    },
+    {
+        "id": 4,
+        "title": "Lesson 4: Present Simple Tense",
+        "description": "Como falar sobre rotinas, hábitos e fatos usando verbos de ação no presente.",
+        completed: false,
+        percentage: 0
+    },
+    {
+        "id": 5,
+        "title": "Lesson 5: Asking Questions",
+        "description": "Uso de 'Do/Does' e pronomes interrogativos (Who, What, Where, When, Why) para formular perguntas.",
+        completed: false,
+        percentage: 0
+    },
+    {
+        "id": 6,
+        "title": "Lesson 6: Telling Time and Schedules",
+        "description": "Aprenda a ler as horas, falar sobre dias da semana e organizar compromissos em inglês.",
+        completed: false,
+        percentage: 0
+    },
+    {
+        "id": 7,
+        "title": "Lesson 7: Daily Conversations",
+        "description": "Prática de diálogos situacionais, como pedir comida em um restaurante ou pedir informações.",
+        completed: false,
+        percentage: 0
+    }
 ];
 
 const useAppStore = create<AppState>()(
@@ -49,7 +97,8 @@ const useAppStore = create<AppState>()(
             apiKey: 'Sem API configurada',
             language: 'english',
             allLessons: initialLessons,
-            activeLesson: null,
+            lastAccessedLesson: null,
+            started: false,
 
             setUsername: (username) => set({ username }),
             setApiKey: (apiKey) => set({ apiKey }),
@@ -62,19 +111,30 @@ const useAppStore = create<AppState>()(
 
             setLessons: (newLessons) => set({ allLessons: newLessons }),
 
-            setActiveLesson: (lesson) => {
-                if (!lesson) {
-                    set({ activeLesson: null });
-                    return;
-                }
-
+            setLastAccessedLesson: (id: number) => {
                 set((state) => ({
-                    activeLesson: lesson,
-                    allLessons: state.allLessons.map((l) =>
-                        l.id === lesson.id ? { ...l, started: true } : l
-                    ),
+                    lastAccessedLesson: id,
+                    allLessons: state.allLessons.map((lesson) => lesson.id === id ?
+                        { ...lesson, started: true } : lesson
+                    )
                 }));
             },
+
+
+            updateActiveLessonData: (id: number, data) => {
+                set((state) => {
+                    return {
+                        allLessons: state.allLessons.map((lesson) =>
+                            lesson.id === id
+                                ? { ...lesson, ...data }
+                                : lesson
+                        ),
+                    };
+                });
+            },
+
+
+
         }),
         {
             name: 'slow-englishai-phsalazar',
