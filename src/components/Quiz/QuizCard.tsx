@@ -1,6 +1,3 @@
-'use client';
-
-import { useEffect } from 'react';
 import { AiFillSound } from "react-icons/ai";
 
 interface QuizProps {
@@ -13,16 +10,6 @@ interface QuizProps {
 const QuizCard = ({ question, options, answer, handleCorrect }: QuizProps) => {
     const baseAnswer =
         "bg-gray-100 p-2 border border-gray-300 rounded-xl text-sm hover:border-[#1E40AF] hover:text-[#1E40AF] cursor-pointer hover:animate-pulse transition-all";
-
-    useEffect(() => {
-        const load = () => {
-            const voices = window.speechSynthesis.getVoices();
-            console.log(voices);
-        };
-
-        load();
-        window.speechSynthesis.onvoiceschanged = load;
-    }, []);
 
 
     const checkAnswer = (index: number, e: React.MouseEvent<HTMLButtonElement>) => {

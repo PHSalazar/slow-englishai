@@ -70,7 +70,7 @@ const Home = () => {
                     <p className="text-center"><NavLink to="/" className="text-xs">Ver todas as atividades</NavLink></p>
                 </Card>
 
-                <Card className="relative col-span-6 min-h-[200px] sm:row-span-7 bg-blue-900/10 overflow-hidden">
+                <Card className="relative col-span-6 min-h-[200px] sm:row-span-7 bg-emerald-900/10 overflow-hidden">
                     <img src={imageQuiz} className="w-[400px] absolute bottom-5 sm:top-5 sm:right-0.5 -z-50 opacity-10" />
 
                     <h2>Quiz</h2>
