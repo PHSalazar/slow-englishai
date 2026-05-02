@@ -1,7 +1,6 @@
 import axios from 'axios';
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { AiOutlineLoading3Quarters } from 'react-icons/ai';
-import { FaBookOpenReader } from 'react-icons/fa6';
 import { IoIosArrowRoundBack } from 'react-icons/io';
 import { useNavigate, useParams } from 'react-router-dom';
 import useUserInfoStore from '../store/useUserInfoStore';
@@ -17,12 +16,17 @@ const FullScreenLesson = () => {
     const titleCurrentLesson = currentLesson ? currentLesson.title : null;
     const descriptionCurrentLesson = currentLesson ? currentLesson.description : null;
 
-    const { apiKey, setLastAccessedLesson, updateActiveLessonData, addTask } = useUserInfoStore();
+    const { apiKey, setLastAccessedLesson, updateActiveLessonData, addTask, addQuiz } = useUserInfoStore();
     const [isLoading, setIsLoading] = useState(false);
 
+    const hasRun = useRef(false);
+
     useEffect(() => {
+        if (hasRun.current) return;
+        hasRun.current = true;
+
         setLastAccessedLesson(Number(id));
-        addTask({ icon: FaBookOpenReader, label: "Você iniciou os estudos!", date: new Date() })
+        addTask({ icon: "FaBookOpenReader", label: `Você começou a estudar '${titleCurrentLesson}.'`, date: new Date() })
     }, [id])
 
 
@@ -118,7 +122,7 @@ Return ONLY valid JSON:
   "reading_html": "HTML reading material with the short story.",
   "tts_script_pt_html": "Plain text for text-to-speech Portuguese translation.",
   "tts_script": "Plain text for text-to-speech. Must be 100 to 130 words.",
-  "quiz": "array with 5 quiz about module and topic. question's format {question: string, options: ["string", "string", "string", "string"], answer: number}"
+  "quiz": "array with 5 questions about module and topic focused phrases in portugues translation, word's translation. question's format {question: string, options: ["string", "string", "string", "string"], answer: number}"
 }`;
 
             const response = await axios.post(
@@ -131,6 +135,7 @@ Return ONLY valid JSON:
 
             setHistory(generatedData.reading_html);
             updateActiveLessonData(Number(id), generatedData);
+            addQuiz(generatedData.quiz);
 
             const lessonPayload = {
                 reading_html: generatedData.reading_html,

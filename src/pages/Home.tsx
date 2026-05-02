@@ -6,6 +6,7 @@ import { NavLink } from "react-router-dom";
 import imageStuding from "../assets/studing.png";
 import Card from "../components/Home/Card";
 import CardInfoHistory from "../components/Home/CardInfoHistory";
+import QuizContainer from "../components/Quiz/QuizContainer";
 import useUserInfoStore from "../store/useUserInfoStore";
 
 const Home = () => {
@@ -52,21 +53,25 @@ const Home = () => {
                         )
                     }
                 </Card>
-                <Card className="col-span-2 min-h-[200px] h-[250px] sm:row-span-7 bg-white overflow-y-auto flex flex-col">
-                    <h6 className="font-bold text-xs mb-3 flex-1 flex flex-nowrap gap-1 items-center"><FaRocketchat /> Atividades Recentes</h6>
-                    {
-                        history.length > 0 ? (
-                            history.slice(0, 3).map(t => <CardInfoHistory {...t} />)
-                        ) : (
-                            <p className="flex-1 h-full text-xs flex flex-col items-center justify-center text-gray-400"><TbMoodEmpty size={24} /> Sem histórico.</p>
-                        )
-                    }
+                <Card className="col-span-2 min-h-[200px] h-[250px] sm:row-span-7 bg-white  flex flex-col">
+                    <h6 className="font-bold text-xs mb-3 flex flex-nowrap gap-1 items-center"><FaRocketchat /> Atividades Recentes</h6>
+
+                    <div className="flex-1 overflow-y-auto">
+                        {
+                            history.length > 0 ? (
+                                history.slice(0, 3).map(t => <CardInfoHistory key={t.label + t.date} {...t} />)
+                            ) : (
+                                <p className="flex-1 h-full text-xs flex flex-col items-center justify-center text-gray-400"><TbMoodEmpty size={24} /> Sem histórico.</p>
+                            )
+                        }
+                    </div>
+
                     <p className="text-center"><NavLink to="/" className="text-xs">Ver todas as atividades</NavLink></p>
                 </Card>
 
                 <Card className="col-span-6 min-h-[200px] sm:row-span-7">
-                    Lorem ipsum dolor sit amet.
-                    Quick Reply/Quiz
+                    <h2>Quiz</h2>
+                    <QuizContainer />
                 </Card>
             </div>
         </div>

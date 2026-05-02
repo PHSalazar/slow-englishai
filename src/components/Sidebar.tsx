@@ -29,7 +29,7 @@ const Sidebar = () => {
             <ul className="flex flex-row sm:flex-col flex-1 justify-around sm:justify-start gap-2">
                 {
                     menuIcons.map((menuItem) => (
-                        <NavLink to={menuItem.to} className={activeClass}>
+                        <NavLink key={menuItem.label} to={menuItem.to} className={activeClass}>
                             <li className="flex flex-col sm:flex-row flex-nowrap items-center gap-2 text-xs sm:text-sm hover:text-[#1E40AF]"><menuItem.icon className={classIcon} /> {menuItem.label}</li>
                         </NavLink>
                     ))

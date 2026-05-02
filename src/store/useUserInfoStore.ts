@@ -1,4 +1,3 @@
-import type { IconType } from "react-icons";
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
 
@@ -14,10 +13,11 @@ interface Lesson {
     completed: boolean;
     percentage: number;
     started?: boolean;
+    quiz?: QuizQuestion[];
 }
 
 interface Task {
-    icon?: IconType;
+    icon?: string;
     label: string,
     date: Date;
 }
