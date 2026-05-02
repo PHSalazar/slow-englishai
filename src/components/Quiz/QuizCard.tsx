@@ -1,4 +1,6 @@
-import puter from "@heyputer/puter.js";
+'use client';
+
+import { useEffect } from 'react';
 import { AiFillSound } from "react-icons/ai";
 
 interface QuizProps {
@@ -9,8 +11,19 @@ interface QuizProps {
 }
 
 const QuizCard = ({ question, options, answer, handleCorrect }: QuizProps) => {
+    const baseAnswer =
+        "bg-gray-100 p-2 border border-gray-300 rounded-xl text-sm hover:border-[#1E40AF] hover:text-[#1E40AF] cursor-pointer hover:animate-pulse transition-all";
 
-    const baseAnswer = "bg-gray-100 p-2 border border-gray-300 rounded-xl text-sm hover:border-[#1E40AF] hover:text-[#1E40AF] cursor-pointer hover:animate-pulse transition-all";
+    useEffect(() => {
+        const load = () => {
+            const voices = window.speechSynthesis.getVoices();
+            console.log(voices);
+        };
+
+        load();
+        window.speechSynthesis.onvoiceschanged = load;
+    }, []);
+
 
     const checkAnswer = (index: number, e: React.MouseEvent<HTMLButtonElement>) => {
         const target = e.currentTarget;
@@ -26,23 +39,29 @@ const QuizCard = ({ question, options, answer, handleCorrect }: QuizProps) => {
         }, 1000);
     };
 
-    const listenQuestion = (question: string) => {
-        puter.ai.txt2speech(question)
-    }
 
     return (
         <div className="flex flex-col gap-5">
-            <h1 className="flex items-center gap-2">{question} <AiFillSound className="cursor-pointer hover:text-[#1E40AF]" onClick={() => listenQuestion(question)} /></h1>
+            <h1 className="flex items-center gap-2">
+                {question}
+                <AiFillSound
+                    className="cursor-pointer hover:text-[#1E40AF]"
+                />
+            </h1>
 
-            <div className="flex gap-2 items-center justify-center">
-                {
-                    options.map((option, index) => (
-                        <button key={index} onClick={(e) => checkAnswer(index, e)} className={baseAnswer}>{option}</button>
-                    ))
-                }
+            <div className="flex flex-wrap gap-2 items-center justify-center">
+                {options.map((option, index) => (
+                    <button
+                        key={index}
+                        onClick={(e) => checkAnswer(index, e)}
+                        className={baseAnswer}
+                    >
+                        {option}
+                    </button>
+                ))}
             </div>
         </div>
-    )
-}
+    );
+};
 
-export default QuizCard
+export default QuizCard;

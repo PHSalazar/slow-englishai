@@ -4,6 +4,7 @@ import { TbMoodEmpty } from "react-icons/tb";
 import { VscDebugStart } from "react-icons/vsc";
 import { NavLink } from "react-router-dom";
 import imageStuding from "../assets/studing.png";
+import imageQuiz from "../assets/undraw_choose.png";
 import Card from "../components/Home/Card";
 import CardInfoHistory from "../components/Home/CardInfoHistory";
 import QuizContainer from "../components/Quiz/QuizContainer";
@@ -43,7 +44,7 @@ const Home = () => {
                         ) : (
                             <>
                                 <h1 className="text-2xl font-extrabold">Que tal iniciarmos os seus estudos?</h1>
-                                <h2 className="text-md flex-1 text-gray-500!">Inicie seus estudos agora mesmo e vamos avançar jutnos!</h2>
+                                <h2 className="text-md flex-1 text-gray-500!">Inicie seus estudos agora mesmo e vamos avançar juntos!</h2>
 
                                 <NavLink to="lessons" className="mt-8 self-center bg-white text-[#1E40AF] rounded-md w-11/12 sm:w-7/12 py-2
                     cursor-pointer flex flex-nowrap items-center justify-center font-medium hover:bg-[#1E40AF] hover:text-white transition-all gap-2">
@@ -69,7 +70,9 @@ const Home = () => {
                     <p className="text-center"><NavLink to="/" className="text-xs">Ver todas as atividades</NavLink></p>
                 </Card>
 
-                <Card className="col-span-6 min-h-[200px] sm:row-span-7">
+                <Card className="relative col-span-6 min-h-[200px] sm:row-span-7 bg-blue-900/10 overflow-hidden">
+                    <img src={imageQuiz} className="w-[400px] absolute bottom-5 sm:top-5 sm:right-0.5 -z-50 opacity-10" />
+
                     <h2>Quiz</h2>
                     <QuizContainer />
                 </Card>
