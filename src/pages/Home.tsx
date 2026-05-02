@@ -60,7 +60,7 @@ const Home = () => {
                     <div className="flex-1 overflow-y-auto">
                         {
                             history.length > 0 ? (
-                                history.slice(0, 3).map(t => <CardInfoHistory key={t.label + t.date} {...t} />)
+                                history.slice(-3).reverse().map(t => <CardInfoHistory key={t.label + t.date} {...t} />)
                             ) : (
                                 <p className="flex-1 h-full text-xs flex flex-col items-center justify-center text-gray-400"><TbMoodEmpty size={24} /> Sem histórico.</p>
                             )
