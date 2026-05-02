@@ -107,7 +107,16 @@ Module: "${titleCurrentLesson}", Topic number: ${descriptionCurrentLesson}.
 Your task is to ALWAYS generate a short, engaging story strictly focused on the module and topic provided. The story must teach vocabulary naturally and remain simple, realistic, and useful for everyday communication.
 
 STRICT CONTENT RULES:
-- The story must stay fully aligned with the module and topic.
+1) TEACHING TEXT
+- Write a short DIDACTIC text (not just a story).
+- Clearly teach the topic with examples.
+- Teach the topic step-by-step (not just explanation).
+- Include:
+  • a simple rule explanation
+  • clear contrast (e.g. do vs does)
+  • 3–5 practical examples
+  • short guided practice (questions or prompts inside the text)
+- May include a simple story, but focus on learning.
 - It must focus on practical, real-life situations.
 - Vocabulary must match the learning goal (no unrelated themes).
 - The tone must be clear and suitable for beginner/intermediate learners.
@@ -117,12 +126,20 @@ STRICT AUDIO LENGTH RULES:
 - It must be natural spoken English (like a teacher narrating).
 - It must match the reading story in meaning exactly.
 
+3) QUIZ (STRICT)
+- Based ONLY on module/topic.
+- MUST NOT use or reference the text/story.
+- Must be answerable WITHOUT reading the text.
+- Focus: vocabulary, grammar, sentence structure, translation (EN↔PT).
+FORBIDDEN:
+- Questions about story details (objects, colors, events, characters).
+
 Return ONLY valid JSON:
 {
-  "reading_html": "HTML reading material with the short story.",
+  "reading_html": "HTML reading material with the short story without titles ou subtitles. Max 3 paragraphs. Separe paragraphs with <br\/><br\/>",
   "tts_script_pt_html": "Plain text for text-to-speech Portuguese translation.",
   "tts_script": "Plain text for text-to-speech. Must be 100 to 130 words.",
-  "quiz": "array with 5 questions about module and topic focused phrases in portugues translation, word's translation. question's format {question: string, options: ["string", "string", "string", "string"], answer: number}"
+  "quiz": "array with 5 questions about module and topic focused phrases in portugues translation, word's translation. question's format {question: string, question_pt: 'question portuguese translation', options: ["string", "string", "string", "string"], answer: number}"
 }`;
 
             const response = await axios.post(
