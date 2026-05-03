@@ -22,8 +22,9 @@ const Home = () => {
         return fullname?.split(" ")[0] || fullname
     }
 
+
     return (
-        <div className="flex flex-col gap-5">
+        <div className="h-full flex flex-col gap-5 overflow-y-auto min-h-0 p-5">
             <h1 className="font-extrabold text-2xl">Bem-vindo de volta, {formattedName(username)}!</h1>
             <p className="text-xs font-light">Você está a <b>5</b> dias de completar sua meta semanal.</p>
 

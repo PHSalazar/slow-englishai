@@ -6,6 +6,8 @@ interface Lesson {
     id: number;
     title: string;
     description: string;
+    words: Word[];
+
     reading_html?: string;
     transcript_html?: string;
     transcript_pt_html?: string;
@@ -14,6 +16,7 @@ interface Lesson {
     percentage: number;
     started?: boolean;
     quiz?: QuizQuestion[];
+
 }
 
 interface Task {
@@ -26,6 +29,13 @@ interface QuizQuestion {
     question: string,
     options: string[],
     answer: number,
+}
+
+interface Word {
+    la: string;
+    "pt-br": string;
+    explain: string;
+    uses: string;
 }
 
 interface AppState {
@@ -57,6 +67,9 @@ interface AppState {
 
     // Actions: Quiz
     addQuiz: (quiz: QuizQuestion) => void;
+
+    // Actions: Words
+    addWordsToLesson: (lessonId: number, words: Word[]) => void;
 }
 
 const initialLessons: Lesson[] = [
@@ -66,48 +79,55 @@ const initialLessons: Lesson[] = [
         "description": "Aprenda a cumprimentar pessoas, se apresentar e usar expressões básicas de cortesia no dia a dia.",
         completed: false,
         percentage: 0,
+        words: [],
     },
     {
         "id": 2,
         "title": "Lesson 2: Essential Verbs and Pronouns",
         "description": "Foco no verbo 'to be' e pronomes pessoais para construir frases afirmativas e negativas simples.",
         completed: false,
-        percentage: 0
+        percentage: 0,
+        words: [],
     },
     {
         "id": 3,
         "title": "Lesson 3: Common Vocabulary and Objects",
         "description": "Expansão de vocabulário com nomes de objetos comuns, cores e números para descrever o ambiente.",
         completed: false,
-        percentage: 0
+        percentage: 0,
+        words: [],
     },
     {
         "id": 4,
         "title": "Lesson 4: Present Simple Tense",
         "description": "Como falar sobre rotinas, hábitos e fatos usando verbos de ação no presente.",
         completed: false,
-        percentage: 0
+        percentage: 0,
+        words: [],
     },
     {
         "id": 5,
         "title": "Lesson 5: Asking Questions",
         "description": "Uso de 'Do/Does' e pronomes interrogativos (Who, What, Where, When, Why) para formular perguntas.",
         completed: false,
-        percentage: 0
+        percentage: 0,
+        words: [],
     },
     {
         "id": 6,
         "title": "Lesson 6: Telling Time and Schedules",
         "description": "Aprenda a ler as horas, falar sobre dias da semana e organizar compromissos em inglês.",
         completed: false,
-        percentage: 0
+        percentage: 0,
+        words: [],
     },
     {
         "id": 7,
         "title": "Lesson 7: Daily Conversations",
         "description": "Prática de diálogos situacionais, como pedir comida em um restaurante ou pedir informações.",
         completed: false,
-        percentage: 0
+        percentage: 0,
+        words: [],
     }
 ];
 
@@ -122,6 +142,7 @@ const useAppStore = create<AppState>()(
             started: false,
             history: [],
             quiz: [],
+            words: [],
 
             setUsername: (username) => set({ username }),
             setApiKey: (apiKey) => set({ apiKey }),
@@ -174,7 +195,17 @@ const useAppStore = create<AppState>()(
                 set((state) => ({
                     quiz: [...state.quiz, quiz]
                 }))
-            }
+            },
+
+            addWordsToLesson: (lessonId: number, words: Word[]) => {
+                set((state) => ({
+                    allLessons: state.allLessons.map((lesson) =>
+                        lesson.id === lessonId
+                            ? { ...lesson, words: words }
+                            : lesson
+                    )
+                }));
+            },
 
         }),
         {

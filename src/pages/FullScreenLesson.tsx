@@ -3,20 +3,28 @@ import { useEffect, useRef, useState } from 'react';
 import { AiOutlineLoading3Quarters } from 'react-icons/ai';
 import { IoIosArrowRoundBack } from 'react-icons/io';
 import { useNavigate, useParams } from 'react-router-dom';
+import Chat from '../components/Chat';
 import useUserInfoStore from '../store/useUserInfoStore';
+
+interface Word {
+    la: string;
+    "pt-br": string;
+    explain: string;
+    uses: string;
+}
 
 const FullScreenLesson = () => {
     const [history, setHistory] = useState('');
 
     const { id } = useParams();
     const navigate = useNavigate();
-    const allLessons = useUserInfoStore((state) => state.allLessons);
+    const { allLessons, addWordsToLesson, apiKey, setLastAccessedLesson, updateActiveLessonData, addTask, addQuiz } = useUserInfoStore();
 
     const currentLesson = allLessons.find(lesson => lesson.id === Number(id));
     const titleCurrentLesson = currentLesson ? currentLesson.title : null;
     const descriptionCurrentLesson = currentLesson ? currentLesson.description : null;
+    const words = currentLesson ? currentLesson.words : [];
 
-    const { apiKey, setLastAccessedLesson, updateActiveLessonData, addTask, addQuiz } = useUserInfoStore();
     const [isLoading, setIsLoading] = useState(false);
 
     const hasRun = useRef(false);
@@ -29,6 +37,28 @@ const FullScreenLesson = () => {
         addTask({ icon: "FaBookOpenReader", label: `Você começou a estudar '${titleCurrentLesson}.'`, date: new Date() })
     }, [id])
 
+
+    const listenAudio = () => {
+        fetch("https://www.freevoicereader.com/api/free-tts", {
+            "headers": {
+                "accept": "*/*",
+                "accept-language": "pt-BR,pt;q=0.6",
+                "content-type": "multipart/form-data; boundary=----WebKitFormBoundaryRp7SACZGe2JSxCTT",
+                "priority": "u=1, i",
+                "sec-ch-ua": "\"Brave\";v=\"147\", \"Not.A/Brand\";v=\"8\", \"Chromium\";v=\"147\"",
+                "sec-ch-ua-mobile": "?0",
+                "sec-ch-ua-platform": "\"Linux\"",
+                "sec-fetch-dest": "empty",
+                "sec-fetch-mode": "cors",
+                "sec-fetch-site": "same-origin",
+                "sec-gpc": "1",
+                "cookie": "__client_uat=0; __client_uat_TM3UfgYz=0",
+                "Referer": "https://www.freevoicereader.com/"
+            },
+            "body": "------WebKitFormBoundaryRp7SACZGe2JSxCTT\r\nContent-Disposition: form-data; name=\"text\"\r\n\r\nNow, let's make these sentences negative. It's very simple! Just add \"not\" after the \"to be\" verb.\r\nRule: [Pronoun] + [am/is/are] + not + [rest of sentence].\r\nContrast: \"I am happy.\" (Eu estou feliz.) becomes \"I am not happy.\" (Eu não estou feliz.)\r\n\"He is Brazilian.\" (Ele é brasileiro.) becomes \"He is not Brazilian.\" (Ele não é brasileiro.)\r\n\"They are at home.\" (Eles estão em casa.) becomes \"They are not at home.\" (Eles não estão em casa.)\r\n------WebKitFormBoundaryRp7SACZGe2JSxCTT\r\nContent-Disposition: form-data; name=\"voice\"\r\n\r\nen-US-JennyNeural\r\n------WebKitFormBoundaryRp7SACZGe2JSxCTT\r\nContent-Disposition: form-data; name=\"title\"\r\n\r\nNow_lets_make\r\n------WebKitFormBoundaryRp7SACZGe2JSxCTT--\r\n",
+            "method": "POST"
+        });
+    }
 
     /*
         const handleGetContent = async () => {
@@ -171,8 +201,83 @@ Return ONLY valid JSON:
         }
     };
 
+    const handleGetContentLesson = async () => {
+        setIsLoading(true);
+
+        try {
+            const textPrompt = `You are an English teacher creating Duolingo-style vocabulary for a Brazilian student.
+
+Module: "${titleCurrentLesson}"  
+Topic: "${descriptionCurrentLesson}"
+
+Return ONLY valid JSON:
+
+{
+  "words": [
+    {
+      "la": "word or everyday phrase",
+      "pt-br": "tradução direta e natural",
+      "explain": "quando usar em 1 frase simples (sem regras gramaticais, sem explicações longas)",
+      "uses": "simple natural example sentence"
+    }
+  ],
+  "quiz": [
+    {
+      "question": "question in English",
+      "question_pt": "pergunta em português",
+      "options": ["A", "B", "C", "D"],
+      "answer": 0
+    }
+  ]
+}
+
+Rules:
+- words: 8-12 items
+- MUST be everyday spoken English (Duolingo style)
+- prefer phrases over grammar rules (e.g. "what time is it?", "I'm late", "see you later")
+- NO grammar explanations
+- NO rules (like 'AM/PM means...', 'on + days...')
+- explain MUST be:
+  • 1 short sentence
+  • only usage context (not theory)
+- focus on real conversation
+- quiz: 5 questions
+- quiz must be independent of any text
+- output ONLY JSON`;
+
+            const response = await axios.post(
+                `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${apiKey}`,
+                { contents: [{ parts: [{ text: textPrompt }] }], generationConfig: { responseMimeType: "application/json" } }
+            );
+
+            const generatedData = JSON.parse(response.data.candidates[0].content.parts[0].text);
+            if (!generatedData.words) throw new Error("IA não gerou palavras.");
+
+            // setHistory(generatedData.reading_html);
+            // updateActiveLessonData(Number(id), generatedData);
+            addQuiz(generatedData.quiz);
+
+            addWordsToLesson(Number(id), generatedData.words);
+
+            // const lessonPayload = {
+            //     reading_html: generatedData.reading_html,
+            // };
+
+            // Atualiza a Store
+            // useUserInfoStore.getState().updateActiveLessonData(Number(id), lessonPayload);
+
+            // setHistory(generatedData.reading_html);
+
+        } catch (e: any) {
+            console.error("Erro detalhado:", e);
+            alert(`Falha: ${e.message}`);
+        } finally {
+            setIsLoading(false);
+        }
+    };
+
     return (
-        <div className=' h-full flex flex-col'>
+        <div className=' h-full flex flex-col overflow-hidden p-5'>
             <div className='flex flex-nowrap items-center gap-2'>
                 <IoIosArrowRoundBack size={20} onClick={() => navigate(-1)} className='cursor-pointer' title='Voltar para Lessons' />
                 <p>
@@ -189,16 +294,36 @@ Return ONLY valid JSON:
                     </div>
                 ) : (
                     <>
-                        <button onClick={handleGetContentText} disabled={isLoading}>
-                            Gerar áudio
+                        <button onClick={listenAudio} disabled={isLoading}>
+                            Ouvir
+                        </button>
+
+                        <button onClick={handleGetContentLesson} disabled={isLoading}>
+                            Gerar Lição
                         </button>
                     </>
                 )
             }
 
 
-            <div className='w-11/12 self-center' dangerouslySetInnerHTML={{ __html: history || currentLesson?.reading_html || '' }} />
-        </div>
+            {/* <div className='w-11/12 self-center' dangerouslySetInnerHTML={{ __html: history || currentLesson?.reading_html || '' }} /> */}
+
+            {/* {
+                words && words.map(word => (
+                    <Card className='w-11/12 m-h-[200px] self-center text-center'>
+                        <p className='font-extrabold'>{word.la}</p>
+                        <hr />
+                        <p className='font-thin'>{word['pt-br']}</p>
+                        <p className='mt-2'>{word.explain}</p>
+                        <p className='mt-2'>{word.uses}</p>
+                    </Card>
+                ))
+            } */}
+
+            <div className="flex-1 border-t pt-2 min-h-0">
+                <Chat />
+            </div>
+        </div >
     )
 }
 

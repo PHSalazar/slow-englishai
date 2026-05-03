@@ -11,7 +11,7 @@ const Lessons = () => {
 
 
     return (
-        <div className="h-full flex flex-col gap-5">
+        <div className="h-full flex flex-col gap-5 p-5 overflow-y-auto min-h-0">
 
             {titleCurrentLesson && (
                 <div className="flex flex-col">
