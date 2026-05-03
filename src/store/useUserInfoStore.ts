@@ -157,9 +157,17 @@ const useAppStore = create<AppState>()(
             },
 
             addTask: (task: Task) => {
-                set((state) => ({
-                    history: [...state.history, task]
-                }))
+                set((state) => {
+                    const taskExists = state.history.some(t => t.label === task.label && new Date(t.date).getTime() === new Date(task.date).getTime());
+
+                    if (!taskExists) {
+                        return {
+                            history: [...state.history, task]
+                        }
+                    }
+
+                    return state;
+                })
             },
 
             addQuiz: (quiz: QuizQuestion) => {
