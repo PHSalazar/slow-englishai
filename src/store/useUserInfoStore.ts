@@ -179,7 +179,7 @@ const useAppStore = create<AppState>()(
 
             addTask: (task: Task) => {
                 set((state) => {
-                    const taskExists = state.history.some(t => t.label === task.label && new Date(t.date).getTime() === new Date(task.date).getTime());
+                    const taskExists = state.history.some(t => t.label === task.label);
 
                     if (!taskExists) {
                         return {

@@ -1,3 +1,4 @@
+import { CiChat2 } from "react-icons/ci";
 import { FaRocketchat } from "react-icons/fa";
 import { MdOutlineRocketLaunch } from "react-icons/md";
 import { TbMoodEmpty } from "react-icons/tb";
@@ -77,6 +78,10 @@ const Home = () => {
                     <h2>Quiz</h2>
                     <QuizContainer />
                 </Card>
+
+                <div className="absolute right-5 bottom-6 flex flex-col sm:flex-row flex-nowrap items-center text-xs sm:text-sm rounded-full bg-blue-600 text-white hover:text-[#1E40AF] hover:bg-gray-200 hover:border-[#1E40AF] hover:border cursor-pointer">
+                    <CiChat2 className="w-6 h-6 m-2" />
+                </div>
             </div>
         </div>
     )
