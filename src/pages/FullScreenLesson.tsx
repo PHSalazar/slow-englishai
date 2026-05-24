@@ -57,11 +57,13 @@ const FullScreenLesson = () => {
             addTask({ icon: "FaTrophy", label: `Parabéns! Você terminou '${titleCurrentLesson}'.`, date: new Date() });
         }
 
-        // Porcentagem
-        const totalStages = Object.keys(stageConfig).length;
-        const currentIndex = Object.keys(stageConfig).indexOf(stageLesson) + 1;
-        const percentage = (currentIndex / totalStages) * 100;
-        setPercentage(Number(id), percentage)
+        if (currentLesson?.lesson_flow && currentLesson?.lesson_flow?.length > 0) {
+            // Porcentagem
+            const totalStages = Object.keys(stageConfig).length;
+            const currentIndex = Object.keys(stageConfig).indexOf(stageLesson) + 1;
+            const percentage = (currentIndex / totalStages) * 100;
+            setPercentage(Number(id), percentage)
+        }
 
     }, [stageLesson])
 
@@ -281,7 +283,7 @@ const FullScreenLesson = () => {
                 )}
 
                 {
-                    stageLesson && stageLesson !== "finished" &&
+                    currentLesson?.lesson_flow && currentLesson?.lesson_flow?.length > 0 && stageLesson && stageLesson !== "finished" &&
                     <div className="flex justify-center w-full">
                         <button
                             onClick={handleStageLesson}

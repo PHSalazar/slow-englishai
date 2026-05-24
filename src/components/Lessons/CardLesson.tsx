@@ -25,7 +25,8 @@ const CardLesson = ({ id, title, description, percentage, started }: CardLessonP
                 </p>
                 <p className="scale-z-95 text-center">{!started ? <span className="italic!">Não iniciado</span> : `${percentage}% estudado`}</p>
                 <Link to={`/lesson/${id}`} className="self-end mt-5 flex gap-2 items-center text-[#1E40AF]">
-                    Continue <FaArrowRightLong />
+                    {percentage === 100 ? "Revisar" : "Continuar"}
+                    <FaArrowRightLong />
                 </Link>
             </div>
         </div>
