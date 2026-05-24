@@ -1,4 +1,5 @@
 import { createBrowserRouter, RouterProvider } from 'react-router-dom'
+import LessonPratice from './components/Lessons/LessonPratice'
 import RootLayout from './layouts/RootLayout'
 import ErrorPage from './pages/ErrorPage'
 import FullScreenLesson from './pages/FullScreenLesson'
@@ -23,6 +24,10 @@ const routes = createBrowserRouter([
       {
         path: '/lesson/:id',
         element: <FullScreenLesson />
+      },
+      {
+        path: '/lesson/:id/pratice',
+        element: <LessonPratice />
       },
       {
         path: 'profile',

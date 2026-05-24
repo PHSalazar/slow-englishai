@@ -1,11 +1,13 @@
+import { LuPenLine } from "react-icons/lu";
 import { MdOutlineTipsAndUpdates } from "react-icons/md";
 import type { LessonFlow } from "../../store/useUserInfoStore";
 
 interface LessonPageProps {
     lesson_flow: LessonFlow[];
+    handleStageLesson: () => void;
 }
 
-const LessonPageStructure = ({ lesson_flow }: LessonPageProps) => {
+const LessonPageStructure = ({ lesson_flow, handleStageLesson }: LessonPageProps) => {
 
     const explanation = lesson_flow?.find((item: any) => item.type === "explanation") as Extract<LessonFlow, { "type": "explanation" }> | undefined
 
@@ -37,6 +39,14 @@ const LessonPageStructure = ({ lesson_flow }: LessonPageProps) => {
             <div>
                 <h1 className="flex flex-nowrap gap-2 items-center"><MdOutlineTipsAndUpdates /> Dica</h1>
                 {tips && <p>{tips?.content}</p>}
+            </div>
+
+            <div className="flex justify-center w-full">
+                <button
+                    onClick={handleStageLesson}
+                    className="flex flex-nowrap gap-2 items-center text-sm border border-transparent text-white bg-blue-600 hover:text-blue-600  hover:border-blue-600 hover:bg-white p-2 rounded-2xl transition-colors cursor-pointer">
+                    <LuPenLine /> Praticar
+                </button>
             </div>
 
         </div>

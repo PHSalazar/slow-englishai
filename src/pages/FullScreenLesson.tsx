@@ -4,6 +4,7 @@ import { AiOutlineLoading3Quarters } from 'react-icons/ai';
 import { IoIosArrowRoundBack } from 'react-icons/io';
 import { useNavigate, useParams } from 'react-router-dom';
 import LessonTexts from '../components/Lessons/LessonPageStructure';
+import LessonPratice from '../components/Lessons/LessonPratice';
 import useUserInfoStore from '../store/useUserInfoStore';
 
 // interface Word {
@@ -27,6 +28,8 @@ const FullScreenLesson = () => {
 
     const [isLoading, setIsLoading] = useState(false);
 
+    const [stageLesson, setStageLesson] = useState<'lesson' | 'practice' | 'quiz'>('lesson');
+
     const hasRun = useRef(false);
 
     useEffect(() => {
@@ -36,6 +39,14 @@ const FullScreenLesson = () => {
         setLastAccessedLesson(Number(id));
         addTask({ icon: "FaBookOpenReader", label: `Você começou a estudar '${titleCurrentLesson}.'`, date: new Date() })
     }, [id])
+
+    const handleStageLesson = () => {
+        setStageLesson(prev => {
+            if (prev === 'lesson') return 'practice';
+            if (prev === 'practice') return 'quiz';
+            return 'lesson';
+        });
+    }
 
 
     // const listenAudio = () => {
@@ -445,10 +456,15 @@ const FullScreenLesson = () => {
             }
 
 
-            {currentLesson?.lesson_flow && currentLesson?.lesson_flow?.length > 0 && (
+            {currentLesson?.lesson_flow && currentLesson?.lesson_flow?.length > 0 && stageLesson === "lesson" && (
                 <LessonTexts
                     lesson_flow={currentLesson.lesson_flow}
+                    handleStageLesson={handleStageLesson}
                 />
+            )}
+
+            {currentLesson?.lesson_flow && currentLesson?.lesson_flow?.length > 0 && stageLesson === "practice" && (
+                <LessonPratice />
             )}
 
             {/* {
