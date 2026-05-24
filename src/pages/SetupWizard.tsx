@@ -33,7 +33,7 @@ const SetupWizard = () => {
                 <input type="text" className="border rounded-sm p-2" placeholder="Ex.: Maria Silva" onChange={(e) => setUsernameState(e.target.value)} value={usernameState === "Usuário" ? "" : usernameState} required />
 
                 <label htmlFor="" className="text-sm">Chave de API</label>
-                <input type="password" className="border rounded-sm p-2" placeholder="**********" onChange={(e) => setApiKeyState(e.target.value)} required />
+                <input value={apiKeyState} type="password" className="border rounded-sm p-2" placeholder="**********" onChange={(e) => setApiKeyState(e.target.value)} required />
 
                 <label htmlFor="" className="text-sm">Idioma de Interesse</label>
                 <select name="" id="" className="border rounded-sm p-2" value={languageState} onChange={(e) => setLanguageState(e.target.value)} required>
