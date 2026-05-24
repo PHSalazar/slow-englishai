@@ -17,9 +17,13 @@ const CardLesson = ({ id, title, description, percentage, started }: CardLessonP
                 <p>
                     {description}
                 </p>
-                <p className="pt-1 text-gray-500 text-[11px]">
-                    {!started ? <span className="italic!">Não iniciado</span> : `${percentage}% estudado`}
+                <p className="mt-2 text-gray-500 text-[11px] border rounded-full text-center">
+                    <div
+                        className="h-1 bg-blue-600 transition-all duration-500 rounded-full"
+                        style={{ width: `${percentage}%` }}
+                    />
                 </p>
+                <p className="scale-z-95 text-center">{!started ? <span className="italic!">Não iniciado</span> : `${percentage}% estudado`}</p>
                 <Link to={`/lesson/${id}`} className="self-end mt-5 flex gap-2 items-center text-[#1E40AF]">
                     Continue <FaArrowRightLong />
                 </Link>

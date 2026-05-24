@@ -15,6 +15,8 @@ interface LessonState {
     activeLesson: Lesson | null; // id da últ. lição estudada
     setLessons: (newLessons: Lesson[]) => void;
     setActiveLesson: (id: Lesson | null) => void;
+
+    setPercentage: (id: number, percentage: number) => void;
 }
 
 const useLessonStore = create<LessonState>()(
@@ -92,7 +94,10 @@ const useLessonStore = create<LessonState>()(
                 }));
             },
 
-
+            // Salvar porcentagem
+            setPercentage: (id, percentage) => set((state) => ({
+                allLessons: state.allLessons.map((l) => l.id === id && l.percentage < percentage ? { ...l, percentage } : l)
+            }))
         }),
         {
             name: 'slow-englishai'

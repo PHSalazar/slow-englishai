@@ -5,6 +5,7 @@ import useUserInfoStore from "../../store/useUserInfoStore";
 const WellDone = () => {
     const { language } = useUserInfoStore();
 
+
     return (
         <div className="flex flex-col items-center justify-center h-full">
             <img src={wellDone} height="250" width={"250"} alt="Ilustração para comunicar que a página está em breve." />

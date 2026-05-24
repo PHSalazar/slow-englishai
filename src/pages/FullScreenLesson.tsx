@@ -26,7 +26,7 @@ const FullScreenLesson = () => {
 
     const { id } = useParams();
     const navigate = useNavigate();
-    const { allLessons, updateActiveLessonData, apiKey, setLastAccessedLesson, addTask } = useUserInfoStore();
+    const { allLessons, updateActiveLessonData, apiKey, setLastAccessedLesson, addTask, setPercentage } = useUserInfoStore();
 
     const currentLesson = allLessons.find(lesson => lesson.id === Number(id));
     const titleCurrentLesson = currentLesson ? currentLesson.title : null;
@@ -47,6 +47,23 @@ const FullScreenLesson = () => {
         setLastAccessedLesson(Number(id));
         addTask({ icon: "FaBookOpenReader", label: `Você começou a estudar '${titleCurrentLesson}.'`, date: new Date() })
     }, [id])
+
+    useEffect(() => {
+        if (stageLesson === 'practice') {
+            addTask({ icon: "FaPen", label: `Isso aí! Você já chegou nos exercícios de '${titleCurrentLesson}'.`, date: new Date() });
+        }
+
+        if (stageLesson === 'finished') {
+            addTask({ icon: "FaTrophy", label: `Parabéns! Você terminou '${titleCurrentLesson}'.`, date: new Date() });
+        }
+
+        // Porcentagem
+        const totalStages = Object.keys(stageConfig).length;
+        const currentIndex = Object.keys(stageConfig).indexOf(stageLesson) + 1;
+        const percentage = (currentIndex / totalStages) * 100;
+        setPercentage(Number(id), percentage)
+
+    }, [stageLesson])
 
     const handleStageLesson = () => {
         setStageLesson(prev => {
@@ -263,13 +280,16 @@ const FullScreenLesson = () => {
                     </>
                 )}
 
-                <div className="flex justify-center w-full">
-                    <button
-                        onClick={handleStageLesson}
-                        className="flex flex-nowrap gap-2 items-center text-sm border border-transparent text-white bg-blue-600 hover:text-blue-600  hover:border-blue-600 hover:bg-white p-2 rounded-2xl transition-colors cursor-pointer">
-                        {configStage.icon} {configStage.text}
-                    </button>
-                </div>
+                {
+                    stageLesson && stageLesson !== "finished" &&
+                    <div className="flex justify-center w-full">
+                        <button
+                            onClick={handleStageLesson}
+                            className="flex flex-nowrap gap-2 items-center text-sm border border-transparent text-white bg-blue-600 hover:text-blue-600  hover:border-blue-600 hover:bg-white p-2 rounded-2xl transition-colors cursor-pointer">
+                            {configStage.icon} {configStage.text}
+                        </button>
+                    </div>
+                }
             </>
 
 

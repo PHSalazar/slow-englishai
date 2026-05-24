@@ -97,6 +97,9 @@ interface AppState {
 
     // Actions: Words
     addWordsToLesson: (lessonId: number, words: Word[]) => void;
+
+    // Porcentagem
+    setPercentage: (id: number, percentage: number) => void;
 }
 
 const initialLessons: Lesson[] = [
@@ -233,6 +236,11 @@ const useAppStore = create<AppState>()(
                     )
                 }));
             },
+
+            // Salvar porcentagem
+            setPercentage: (id, percentage) => set((state) => ({
+                allLessons: state.allLessons.map((l) => l.id === id && l.percentage < percentage ? { ...l, percentage } : l)
+            }))
 
         }),
         {
