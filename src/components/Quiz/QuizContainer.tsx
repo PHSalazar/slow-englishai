@@ -14,14 +14,14 @@ const QuizContainer = () => {
     const [question, setQuestion] = useState<QuizQuestion | null>(null);
 
     // Todas os quizes
-    const filtedQuizzes = allLessons.filter(lesson => lesson.quiz && lesson.quiz.length > 0)
+    const filteredQuizzes = allLessons.filter(lesson => lesson.quiz && lesson.quiz.length > 0)
         .flatMap(lesson => lesson.quiz as QuizQuestion[])
 
 
     const handleGenerateQuestion = () => {
-        if (filtedQuizzes.length > 0) {
-            const randomQuiz = Math.floor(Math.random() * filtedQuizzes.length);
-            setQuestion(filtedQuizzes[randomQuiz]);
+        if (filteredQuizzes.length > 0) {
+            const randomQuiz = Math.floor(Math.random() * filteredQuizzes.length);
+            setQuestion(filteredQuizzes[randomQuiz]);
         }
     }
 

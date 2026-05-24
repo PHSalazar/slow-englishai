@@ -8,6 +8,7 @@ interface Lesson {
     description: string;
     words: Word[];
 
+    lesson_flow: LessonFlow[];
     reading_html?: string;
     transcript_html?: string;
     transcript_pt_html?: string;
@@ -16,6 +17,7 @@ interface Lesson {
     percentage: number;
     started?: boolean;
     quiz?: QuizQuestion[];
+
 
 }
 
@@ -38,13 +40,38 @@ interface Word {
     uses: string;
 }
 
+export type LessonFlow =
+    | {
+        type: "explanation";
+        paragraphs: string[];
+    }
+    | {
+        type: "examples";
+        items: string[];
+    }
+    | {
+        type: "tip";
+        content: string;
+    }
+    | {
+        type: "practice";
+        question: string;
+        answer: string;
+    }
+    | {
+        type: "dialogue";
+        messages: {
+            role: "teacher" | "student";
+            text: string;
+        }[];
+    };
+
 interface AppState {
     // User Info
     username: string;
     apiKey: string;
     language: string;
     history: Task[];
-    quiz: QuizQuestion[];
 
     // Lessons
     allLessons: Lesson[];
@@ -66,7 +93,7 @@ interface AppState {
     addTask: (task: Task) => void;
 
     // Actions: Quiz
-    addQuiz: (quiz: QuizQuestion) => void;
+    // addQuiz: (quiz: QuizQuestion) => void;
 
     // Actions: Words
     addWordsToLesson: (lessonId: number, words: Word[]) => void;
@@ -80,6 +107,7 @@ const initialLessons: Lesson[] = [
         completed: false,
         percentage: 0,
         words: [],
+        lesson_flow: [] as LessonFlow[]
     },
     {
         "id": 2,
@@ -88,6 +116,7 @@ const initialLessons: Lesson[] = [
         completed: false,
         percentage: 0,
         words: [],
+        lesson_flow: [] as LessonFlow[]
     },
     {
         "id": 3,
@@ -96,6 +125,7 @@ const initialLessons: Lesson[] = [
         completed: false,
         percentage: 0,
         words: [],
+        lesson_flow: [] as LessonFlow[]
     },
     {
         "id": 4,
@@ -104,6 +134,7 @@ const initialLessons: Lesson[] = [
         completed: false,
         percentage: 0,
         words: [],
+        lesson_flow: [] as LessonFlow[]
     },
     {
         "id": 5,
@@ -112,6 +143,7 @@ const initialLessons: Lesson[] = [
         completed: false,
         percentage: 0,
         words: [],
+        lesson_flow: [] as LessonFlow[]
     },
     {
         "id": 6,
@@ -120,6 +152,7 @@ const initialLessons: Lesson[] = [
         completed: false,
         percentage: 0,
         words: [],
+        lesson_flow: [] as LessonFlow[]
     },
     {
         "id": 7,
@@ -128,6 +161,7 @@ const initialLessons: Lesson[] = [
         completed: false,
         percentage: 0,
         words: [],
+        lesson_flow: [] as LessonFlow[]
     }
 ];
 
@@ -141,7 +175,6 @@ const useAppStore = create<AppState>()(
             lastAccessedLesson: null,
             started: false,
             history: [],
-            quiz: [],
             words: [],
 
             setUsername: (username) => set({ username }),
@@ -189,12 +222,6 @@ const useAppStore = create<AppState>()(
 
                     return state;
                 })
-            },
-
-            addQuiz: (quiz: QuizQuestion) => {
-                set((state) => ({
-                    quiz: [...state.quiz, quiz]
-                }))
             },
 
             addWordsToLesson: (lessonId: number, words: Word[]) => {
