@@ -1,8 +1,13 @@
 import { useState } from "react";
 import { FaCheck } from "react-icons/fa";
-import { MdError, MdQuiz } from "react-icons/md";
+import { MdError } from "react-icons/md";
 import { useParams } from "react-router-dom";
 import useUserInfoStore, { type LessonFlow } from "../../store/useUserInfoStore";
+
+// interface LessonPageProps {
+//     lesson_flow: LessonFlow[];
+//     handleStageLesson: () => void;
+// }
 
 const LessonPratice = () => {
     const { id } = useParams();
@@ -35,7 +40,7 @@ const LessonPratice = () => {
     }
 
     return (
-        <div className="flex flex-col gap-2">
+        <div className="flex flex-col gap-2 h-full">
             <p>Chegou a hora de praticar sobre o que vimos em <b>{currentLesson?.title}</b></p>
             <p>Aperte <b>ENTER</b> para confirmar sua resposta.</p>
 
@@ -54,16 +59,6 @@ const LessonPratice = () => {
                                 : <p className="flex items-center gap-2"><MdError /> Sua resposta está errada!</p>
                             }
                         </div>
-
-
-                        <div className="flex justify-center w-full">
-                            <button
-                                // onClick={handleStageLesson}
-                                className="flex flex-nowrap gap-2 items-center text-sm border border-transparent text-white bg-blue-600 hover:text-blue-600  hover:border-blue-600 hover:bg-white p-2 rounded-2xl transition-colors cursor-pointer">
-                                <MdQuiz /> Quiz
-                            </button>
-                        </div>
-
                     </div>
                 )
             }

@@ -2,9 +2,11 @@ import axios from 'axios';
 import { useEffect, useRef, useState } from 'react';
 import { AiOutlineLoading3Quarters } from 'react-icons/ai';
 import { IoIosArrowRoundBack } from 'react-icons/io';
+import { LuPenLine } from 'react-icons/lu';
 import { useNavigate, useParams } from 'react-router-dom';
 import LessonTexts from '../components/Lessons/LessonPageStructure';
 import LessonPratice from '../components/Lessons/LessonPratice';
+import QuizContainer from '../components/Quiz/QuizContainer';
 import useUserInfoStore from '../store/useUserInfoStore';
 
 // interface Word {
@@ -456,16 +458,39 @@ const FullScreenLesson = () => {
             }
 
 
-            {currentLesson?.lesson_flow && currentLesson?.lesson_flow?.length > 0 && stageLesson === "lesson" && (
-                <LessonTexts
-                    lesson_flow={currentLesson.lesson_flow}
-                    handleStageLesson={handleStageLesson}
-                />
-            )}
+            <>
+                {currentLesson?.lesson_flow && currentLesson?.lesson_flow?.length > 0 && stageLesson === "lesson" && (
+                    <>
+                        <LessonTexts
+                            lesson_flow={currentLesson.lesson_flow}
+                        />
 
-            {currentLesson?.lesson_flow && currentLesson?.lesson_flow?.length > 0 && stageLesson === "practice" && (
-                <LessonPratice />
-            )}
+                    </>
+                )}
+
+                {currentLesson?.lesson_flow && currentLesson?.lesson_flow?.length > 0 && stageLesson === "practice" && (
+                    <>
+                        <LessonPratice />
+
+                    </>
+                )}
+
+                {currentLesson?.lesson_flow && currentLesson?.lesson_flow?.length > 0 && stageLesson === "quiz" && (
+                    <>
+                        <QuizContainer />
+
+                    </>
+                )}
+
+                <div className="flex justify-center w-full">
+                    <button
+                        onClick={handleStageLesson}
+                        className="flex flex-nowrap gap-2 items-center text-sm border border-transparent text-white bg-blue-600 hover:text-blue-600  hover:border-blue-600 hover:bg-white p-2 rounded-2xl transition-colors cursor-pointer">
+                        <LuPenLine /> {stageLesson}
+                    </button>
+                </div>
+            </>
+
 
             {/* {
                 words && words.map(word => (
